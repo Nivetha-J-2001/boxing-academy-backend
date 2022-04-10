@@ -3,6 +3,7 @@ package com.springboot.demo.exception;
 public class ErrorDetails {
 	private String message;
 	private boolean flag;
+	private long id;
 	
 	public ErrorDetails(String message, boolean flag) {
 		super();
@@ -10,6 +11,22 @@ public class ErrorDetails {
 		this.flag = flag;
 	}
 	
+	public ErrorDetails(String message, boolean flag, long id) {
+		super();
+		this.message = message;
+		this.flag = flag;
+		this.id = id;
+	}
+
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public String getMessage() {
 		return message;
 	}

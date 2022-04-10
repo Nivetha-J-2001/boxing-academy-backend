@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(ResourceFoundException.class)
 	public ResponseEntity<ErrorDetails> resourceFoundHandling(ResourceFoundException exception, WebRequest request){
 		ErrorDetails errorDetails = 
-				new ErrorDetails(exception.getMessage(),false);
+				new ErrorDetails(exception.getMessage(),false,exception.id);
 		return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
 	}
 	
