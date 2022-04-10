@@ -17,7 +17,7 @@ import com.springboot.demo.service.BatchService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/batch")
 public class BatchController {
 
 	@Autowired
