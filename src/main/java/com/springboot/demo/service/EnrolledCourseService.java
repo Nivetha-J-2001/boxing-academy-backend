@@ -22,5 +22,7 @@ public interface EnrolledCourseService {
 
 	public Set<EnrolledCourse> getEnrolledCourseByUserId(User user);
 
+	public Boolean checkStatus(long courseId, long studentId);
+
 	
 }

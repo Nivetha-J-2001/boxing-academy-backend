@@ -58,4 +58,11 @@ public class EnrolledCourseController {
 		user.setId(id);
 		return this.enrolledCourseService.getEnrolledCourseByUserId(user);
 	}
+	
+	@GetMapping("/enrolledCourses/{courseId}/{studentId}")
+	public Boolean checkStatus(@PathVariable("courseId") long courseId, @PathVariable("studentId") long studentId)
+	{
+		
+		return this.enrolledCourseService.checkStatus(courseId,studentId);
+	}
 }

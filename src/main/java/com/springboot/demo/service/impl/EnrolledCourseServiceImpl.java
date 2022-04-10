@@ -73,4 +73,12 @@ public class EnrolledCourseServiceImpl implements EnrolledCourseService {
 		return this.enrolledCourseRepository.findByUser(user);
 	}
 
+	@Override
+	public Boolean checkStatus(long courseId, long studentId) {
+		// TODO Auto-generated method stub
+		Object local=this.enrolledCourseRepository.findByenrolledcourse(studentId,courseId);
+		if(local!=null) return true;
+		return false;
+	}
+
 }

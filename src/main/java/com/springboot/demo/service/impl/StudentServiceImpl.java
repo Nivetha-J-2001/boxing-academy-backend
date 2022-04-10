@@ -29,7 +29,7 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public Student addStudent(Student student) {
 		Student local=this.studentRepository.findByStudentEmail(student.getStudentEmail());
-		System.out.print(local.getStudentId()+"hello");
+		//System.out.print(local.getStudentId()+"hello");
 		if(local!=null) throw new ResourceFoundException("Student Already Present !!  ",local.getStudentId());
 		return this.studentRepository.save(student);
 	}
