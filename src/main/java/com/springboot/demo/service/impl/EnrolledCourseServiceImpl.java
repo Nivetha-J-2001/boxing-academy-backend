@@ -74,9 +74,9 @@ public class EnrolledCourseServiceImpl implements EnrolledCourseService {
 	}
 
 	@Override
-	public Boolean checkStatus(long courseId, long studentId) {
+	public Boolean checkStatus(long courseId, long userId) {
 		// TODO Auto-generated method stub
-		Object local=this.enrolledCourseRepository.findByenrolledcourse(studentId,courseId);
+		Object local=this.enrolledCourseRepository.findByenrolledcourse(userId,courseId);
 		if(local!=null) return true;
 		return false;
 	}

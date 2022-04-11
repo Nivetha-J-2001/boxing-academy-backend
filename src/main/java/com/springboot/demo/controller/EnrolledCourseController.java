@@ -59,10 +59,10 @@ public class EnrolledCourseController {
 		return this.enrolledCourseService.getEnrolledCourseByUserId(user);
 	}
 	
-	@GetMapping("/enrolledCourses/{courseId}/{studentId}")
-	public Boolean checkStatus(@PathVariable("courseId") long courseId, @PathVariable("studentId") long studentId)
+	@GetMapping("/enrolledCourses/{userId}/{courseId}")
+	public Boolean checkStatus(@PathVariable("courseId") long courseId, @PathVariable("userId") long userId)
 	{
 		
-		return this.enrolledCourseService.checkStatus(courseId,studentId);
+		return this.enrolledCourseService.checkStatus(courseId,userId);
 	}
 }
