@@ -13,7 +13,7 @@ public interface InstituteRepository extends JpaRepository<Institute,Long> {
 
 	public Institute findByInstituteEmail(String instituteEmail);
 	
-	@Query(value = "select * from Institute s where s.institute_name like %:keyword% or s.institute_address like %:keyword%", nativeQuery = true)
+	@Query(value = "select * from Institute s where s.institute_name like %:keyword% or s.state like %:keyword% or s.institute_address like %:keyword%", nativeQuery = true)
 	 Set<Institute> findByKeyword(@Param("keyword") String keyword);
 
 }

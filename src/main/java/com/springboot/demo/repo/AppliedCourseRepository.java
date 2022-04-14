@@ -14,6 +14,6 @@ public interface AppliedCourseRepository extends JpaRepository<AppliedCourse,Lon
 
 	public Object findByStudent(Student student);
 	
-	@Query(value = "select * from appliedcourse s where s.student_id like %:studentId% and s.course_id like %:courseId%", nativeQuery = true)
+	@Query(value = "select * from appliedcourse s where s.student_id = :studentId and s.course_id = :courseId", nativeQuery = true)
 	public Object findByappliedcourse(@Param("studentId") long studentId, @Param("courseId") long courseId);
 }
