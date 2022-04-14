@@ -23,7 +23,7 @@ public interface EnrolledCourseRepository extends JpaRepository<EnrolledCourse,L
 
 	public Object findByCourse(Course course);
 	
-	@Query(value = "select * from enrolledcourse s where s.user_id like :userId and s.course_id like :courseId", nativeQuery = true)
+	@Query(value = "select * from enrolledcourse s where s.user_id = :userId and s.course_id = :courseId", nativeQuery = true)
 	public Object findByenrolledcourse(@Param("userId") long userId, @Param("courseId") long courseId);
 	
 
