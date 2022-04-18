@@ -71,4 +71,16 @@ public class CourseController {
 			return coursesOfInstitute;
 			
 		}
+	 
+	 @GetMapping("/institute/{instituteId}/search/{keyword}")
+	 public Set<Course> searchCourse(@PathVariable(value = "keyword", required = false)String keyword,Student student, Model model) {
+		  if(keyword.length()>0) {
+		   Set<Course> list = courseService.getByKeyword(keyword);
+		   return list;
+		  }
+		  else {
+		  Set<Course> list = courseService.getCourses();
+		  return list;
+		  }
+	 }
 }

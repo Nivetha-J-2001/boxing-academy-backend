@@ -16,7 +16,7 @@ public interface CourseRepository extends JpaRepository<Course,Long> {
 	public Course findByCourseName(String courseName);
 	
 	@Query(value = "select * from course s where s.course_name like %:keyword% or s.course_duration like %:keyword%"
-			+ " or s.course_cost like %:keyword% " , nativeQuery = true)
+			+ " or s.course_cost like %:keyword% or s.course_desc like %:keyword% " , nativeQuery = true)
 	 public Set<Course> findByKeyword(@Param("keyword") String keyword);
 	
 }
