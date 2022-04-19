@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springboot.demo.model.Course;
 import com.springboot.demo.model.EnrolledCourse;
-import com.springboot.demo.model.Institute;
 import com.springboot.demo.model.User;
 import com.springboot.demo.service.EnrolledCourseService;
 

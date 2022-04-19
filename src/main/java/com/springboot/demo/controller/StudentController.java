@@ -5,7 +5,6 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import com.springboot.demo.model.Student;
-import com.springboot.demo.model.ModelStudentTableView.StudentTableView;
 import com.springboot.demo.service.StudentService;
 
 @CrossOrigin("*")
@@ -85,6 +83,7 @@ public class StudentController {
 				"select "
 						+ "e.user_id as user_id, "
 						+ "e.course_id as course_id, "
+						+ "e.student_id as student_id, "
 						+ "s.first_name as first_name, "
 						+ "s.last_name as last_name, "
 						+ "s.mobile_number as mobile_number, "
@@ -100,37 +99,12 @@ public class StudentController {
 		List<Object> list = query.getResultList();
 
 		list.add(0,
-				new Object[] { "userId", "courseId", "firstName", "lastName", "mobileNumber", "enrolledCourseName" });
+				new Object[] { "userId", "courseId", "studentId", "firstName", "lastName", "mobileNumber",
+						"enrolledCourseName" });
 
 		entityManager.clear();
 		entityManager.close();
 
 		return list;
 	}
-
-	// @GetMapping("/user/{id}")
-	// public void getStudentsOfUser(@PathVariable("id") Long id){
-	// User user=new User();
-	// user.setId(id);
-	// Set<Student> studentList=this.studentService.getStudentsofUser(user);
-	// List<Long>
-	// ids=studentList.stream().map(Student::getStudentId).collect(Collectors.toList());
-	// List<EnrolledCourse> lst;
-	//
-	// for (int i=0;i<ids.size();i++) {
-	// Long sid=ids.get(i);
-	// Student student=new Student();
-	// student.setStudentId(sid);
-	// //System.out.println(sid);
-	// this.enrolledCourseService.getCourseofStudent(student);
-	//
-	// }
-	//
-	// //List<String> field1List =
-	// entities.stream().map(YourEntity::getField1).collect(Collectors.toList());
-	//
-	// //entities.stream().map(YourEntity::getField1).collect(Collectors.toList());
-	// //return lst;
-	//
-	// }
 }
