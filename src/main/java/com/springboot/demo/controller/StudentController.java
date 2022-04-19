@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.springboot.demo.model.Student;
@@ -66,14 +68,15 @@ public class StudentController {
 	}
 
 	@GetMapping("/search/{keyword}")
-	public Set<Student> search(@PathVariable(value = "keyword", required = false) String keyword, Student student,
-			Model model) {
+	public List<Object> search(@PathVariable(value = "keyword", required = false) String keyword) {
 		if (keyword.length() > 0) {
-			Set<Student> list = studentService.getByKeyword(keyword);
+			List<Object> list = studentService.getByKeyword(keyword);
+			list.add(0,
+					new Object[] { "userId", "courseId", "studentId", "firstName", "lastName", "mobileNumber",
+							"enrolledCourseName" });
 			return list;
 		} else {
-			Set<Student> list = studentService.getStudents();
-			return list;
+			return new ArrayList<Object>();
 		}
 	}
 

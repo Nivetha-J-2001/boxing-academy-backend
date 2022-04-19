@@ -1,5 +1,6 @@
 package com.springboot.demo.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
@@ -19,7 +20,7 @@ public interface StudentService {
 
     public void deleteStudent(Long studentId);
 
-	public Set<Student> getByKeyword(String keyword);
+	public List<Object> getByKeyword(String keyword);
 
 	public Set<Student> getStudentsofUser(User user);
 
