@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -67,8 +68,8 @@ public class StudentController {
 		this.studentService.deleteStudent(studentId);
 	}
 
-	@GetMapping("/search/{keyword}")
-	public List<Object> search(@PathVariable(value = "keyword", required = false) String keyword) {
+	@GetMapping("/search")
+	public List<Object> search(@RequestParam String keyword) {
 		if (keyword.length() > 0) {
 			List<Object> list = studentService.getByKeyword(keyword);
 			list.add(0,
