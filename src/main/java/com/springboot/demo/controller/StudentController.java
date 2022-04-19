@@ -2,6 +2,11 @@ package com.springboot.demo.controller;
 
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,86 +19,118 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springboot.demo.model.Institute;
+import java.util.List;
+
 import com.springboot.demo.model.Student;
-import com.springboot.demo.model.User;
+import com.springboot.demo.model.ModelStudentTableView.StudentTableView;
 import com.springboot.demo.service.StudentService;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/Student")
 public class StudentController {
+	@PersistenceContext
+	private EntityManager entityManager;
+
 	@Autowired
 	private StudentService studentService;
-	//get all students
-	
+	// get all students
+
 	@GetMapping("/viewStudent")
-	public Set<Student> getAllStudents()
-	{
+	public Set<Student> getAllStudents() {
 		return this.studentService.getStudents();
 	}
-	
-	//create employee rest api
+
+	// create employee rest api
 	@PostMapping("/addStudent")
-	public Student addStudent(@RequestBody Student student)
-	{
-		Student student1=this.studentService.addStudent(student);
-		 return student1;
+	public Student addStudent(@RequestBody Student student) {
+		Student student1 = this.studentService.addStudent(student);
+		return student1;
 	}
-	
-	//fetch by ID
+
+	// fetch by ID
 	@GetMapping("/{studentId}")
-	public Student filterStudent(@PathVariable("studentId")long studentId)
-	{
+	public Student filterStudent(@PathVariable("studentId") long studentId) {
 		return this.studentService.getStudent(studentId);
-		
+
 	}
-	
-	//update by Id
+
+	// update by Id
 	@PutMapping("/editStudent")
 	public Student updateStudent(@RequestBody Student student) {
-		 return this.studentService.updateStudent(student);
-	 }
-	
-	//delete by id
+		return this.studentService.updateStudent(student);
+	}
+
+	// delete by id
 	@DeleteMapping("/deleteStudent/{studentId}")
-	 public void deletestudent(@PathVariable("studentId")Long studentId) {
+	public void deletestudent(@PathVariable("studentId") Long studentId) {
 		this.studentService.deleteStudent(studentId);
 	}
-	
+
 	@GetMapping("/search/{keyword}")
-	 public Set<Student> search(@PathVariable(value = "keyword", required = false)String keyword,Student student, Model model) {
-		  if(keyword.length()>0) {
-		   Set<Student> list = studentService.getByKeyword(keyword);
-		   return list;
-		  }
-		  else {
-		  Set<Student> list = studentService.getStudents();
-		  return list;
-		  }
-	 }
-	
-//	@GetMapping("/user/{id}")
-//	public void getStudentsOfUser(@PathVariable("id") Long id){
-//		User user=new User();
-//		user.setId(id);
-//		Set<Student> studentList=this.studentService.getStudentsofUser(user);
-//		List<Long> ids=studentList.stream().map(Student::getStudentId).collect(Collectors.toList());
-//		List<EnrolledCourse> lst;
-//		
-//		for (int i=0;i<ids.size();i++) { 
-//			Long sid=ids.get(i);
-//			Student student=new Student();
-//			student.setStudentId(sid);
-//			//System.out.println(sid);
-//			this.enrolledCourseService.getCourseofStudent(student);
-//		
-//		}
-//		
-//		//List<String> field1List = entities.stream().map(YourEntity::getField1).collect(Collectors.toList());
-//
-//		//entities.stream().map(YourEntity::getField1).collect(Collectors.toList());
-//		//return lst; 
-//			
-//	}	
+	public Set<Student> search(@PathVariable(value = "keyword", required = false) String keyword, Student student,
+			Model model) {
+		if (keyword.length() > 0) {
+			Set<Student> list = studentService.getByKeyword(keyword);
+			return list;
+		} else {
+			Set<Student> list = studentService.getStudents();
+			return list;
+		}
+	}
+
+	@GetMapping("/adminStudentView")
+	public List<?> allStudentView() {
+		Query query = entityManager.createNativeQuery(
+				"select "
+						+ "e.user_id as user_id, "
+						+ "e.course_id as course_id, "
+						+ "s.first_name as first_name, "
+						+ "s.last_name as last_name, "
+						+ "s.mobile_number as mobile_number, "
+						+ "c.course_name as enrolled_course_name "
+						+ "from "
+						+ "students as s, "
+						+ "course as c, "
+						+ "enrolledcourse as e "
+						+ "where "
+						+ "e.student_id = s.student_id "
+						+ "and e.course_id = c.course_id ");
+
+		List<Object> list = query.getResultList();
+
+		list.add(0,
+				new Object[] { "userId", "courseId", "firstName", "lastName", "mobileNumber", "enrolledCourseName" });
+
+		entityManager.clear();
+		entityManager.close();
+
+		return list;
+	}
+
+	// @GetMapping("/user/{id}")
+	// public void getStudentsOfUser(@PathVariable("id") Long id){
+	// User user=new User();
+	// user.setId(id);
+	// Set<Student> studentList=this.studentService.getStudentsofUser(user);
+	// List<Long>
+	// ids=studentList.stream().map(Student::getStudentId).collect(Collectors.toList());
+	// List<EnrolledCourse> lst;
+	//
+	// for (int i=0;i<ids.size();i++) {
+	// Long sid=ids.get(i);
+	// Student student=new Student();
+	// student.setStudentId(sid);
+	// //System.out.println(sid);
+	// this.enrolledCourseService.getCourseofStudent(student);
+	//
+	// }
+	//
+	// //List<String> field1List =
+	// entities.stream().map(YourEntity::getField1).collect(Collectors.toList());
+	//
+	// //entities.stream().map(YourEntity::getField1).collect(Collectors.toList());
+	// //return lst;
+	//
+	// }
 }
