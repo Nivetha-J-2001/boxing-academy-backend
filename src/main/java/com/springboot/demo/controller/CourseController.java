@@ -25,62 +25,73 @@ import com.springboot.demo.service.CourseService;
 public class CourseController {
 	@Autowired
 	private CourseService courseService;
-	
+
 	@PostMapping("/addCourse")
-	public Course add(@RequestBody Course course){
+	public Course add(@RequestBody Course course) {
 		return this.courseService.addCourse(course);
 	}
-	
+
 	@PutMapping("/editCourse")
-	public Course update(@RequestBody Course course){
+	public Course update(@RequestBody Course course) {
 		return this.courseService.updateCourse(course);
 	}
-	
+
 	@GetMapping("/viewCourse")
-	public Set<Course> courses(){
+	public Set<Course> courses() {
 		return this.courseService.getCourses();
 	}
-	
+
 	@GetMapping("/{courseId}")
-	public Course course(@PathVariable("courseId")Long courseId) {
+	public Course course(@PathVariable("courseId") Long courseId) {
 		return this.courseService.getCourse(courseId);
 	}
-	
+
 	@DeleteMapping("/deleteCourse/{courseId}")
-	public void deleteCourse(@PathVariable("courseId")Long courseId) {
+	public void deleteCourse(@PathVariable("courseId") Long courseId) {
 		this.courseService.deleteCourse(courseId);
 	}
-	
+
 	@GetMapping("/search/{keyword}")
-	 public Set<Course> search(@PathVariable(value = "keyword", required = false)String keyword,Student student, Model model) {
-		  if(keyword.length()>0) {
-		   Set<Course> list = courseService.getByKeyword(keyword);
-		   return list;
-		  }
-		  else {
-		  Set<Course> list = courseService.getCourses();
-		  return list;
-		  }
-	 }
-	
-	 @GetMapping("/institute/{instituteId}")
-		public Set<Course> getCoursesOfInstitute(@PathVariable("instituteId") Long instituteId){
-			Institute institute=new Institute();
-			institute.setInstituteId(instituteId);
-			Set<Course>coursesOfInstitute=this.courseService.getCoursesOfInstitute(institute);
-			return coursesOfInstitute;
-			
+	public Set<Course> search(@PathVariable(value = "keyword", required = false) String keyword, Student student,
+			Model model) {
+		if (keyword.length() > 0) {
+			Set<Course> list = courseService.getByKeyword(keyword);
+			return list;
+		} else {
+			Set<Course> list = courseService.getCourses();
+			return list;
 		}
-	 
-	 @GetMapping("/institute/{instituteId}/search/{keyword}")
-	 public Set<Course> searchCourse(@PathVariable(value = "keyword", required = false)String keyword,Student student, Model model) {
-		  if(keyword.length()>0) {
-		   Set<Course> list = courseService.getByKeyword(keyword);
-		   return list;
-		  }
-		  else {
-		  Set<Course> list = courseService.getCourses();
-		  return list;
-		  }
-	 }
+	}
+
+	@GetMapping("/institute/{instituteId}")
+	public Set<Course> getCoursesOfInstitute(@PathVariable("instituteId") Long instituteId) {
+		Institute institute = new Institute();
+		institute.setInstituteId(instituteId);
+		Set<Course> coursesOfInstitute = this.courseService.getCoursesOfInstitute(institute);
+		return coursesOfInstitute;
+
+	}
+
+	@GetMapping("/institute/{instituteId}/search/{keyword}")
+	public Set<Course> searchCourse(
+			@PathVariable(value = "instituteId") int insId,
+			@PathVariable(value = "keyword", required = false) String keyword,
+			Student student,
+			Model model) {
+		if (keyword.length() > 0) {
+			Set<Course> list = courseService.searchAcademyCourseByKeyword(insId, keyword);
+			return list;
+		} else {
+			Set<Course> list = courseService.getCourses();
+			return list;
+		}
+	}
+
+	@GetMapping("/searchUserEnrolledCourse/userId/{userId}/search/{keyword}")
+	public Set<Course> searchEnrolledUserCourses(
+			@PathVariable("userId") long userId,
+			@PathVariable("keyword") String keyword) {
+		return this.courseService.searchUserEnrolledCourseByKeyword(userId, keyword);
+	}
+
 }
