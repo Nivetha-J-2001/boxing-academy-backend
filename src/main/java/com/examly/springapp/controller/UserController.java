@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @GetMapping("/getStudentId")
-    public Long getStudentId(@RequestParam String userEmail) {
+    public String getStudentId(@RequestParam String userEmail) {
         Query queryGetStudentIdOfAUser = entityManager.createNativeQuery("select student_id "
                 + "from students as s "
                 + "where s.student_email = :userEmail");
@@ -77,7 +77,11 @@ public class UserController {
         entityManager.clear();
         entityManager.close();
 
-        return Long.parseLong(result.get(0).toString());
+        if (result.size() > 0) {
+            return result.get(0).toString();
+        }
+
+        return "null";
     }
 
 }
